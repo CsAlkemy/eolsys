@@ -17,6 +17,15 @@ const Timer = () => {
                 )
             }
         </div>
+        <div className='bg-gray-900 my-3 rounded-xl p-5 pb-10'>
+            <div className='text-gray-50 mb-3 font-semibold text-xl'>Time in Secound</div>
+            <div className='flex text-white border-2 border-gray-500 my-auto'>
+                <div className='bg-emerald-500 h-28 w-10'>One</div>
+                <div className='bg-orange-400 h-28 w-20'>Two</div>
+                <div className='bg-blue-600 h-28 w-14'>Three</div>
+                <div className='bg-teal-400 h-28 w-20'>Four</div>
+            </div>
+        </div>       
     </div>
   )
 }

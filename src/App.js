@@ -1,15 +1,18 @@
 import React from 'react';
-import TaskList from './components/TaskList';
-import Timer from './components/Timer';
+import { Route, Routes } from 'react-router-dom';
+import Index from './pages/Index';
+import AddTask from './pages/AddTask';
+import EditTask from './pages/EditTask';
 
 function App() {
   return (
     <div className="App lg:w-11/12 mx-auto my-10">
       <div className='mx-3 md:mx-0'>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-5 gap-y-3 md:gap-y-0'>
-          <Timer/>
-          <TaskList />
-        </div>
+        <Routes>
+          <Route path='/' element={<Index/>} />
+          <Route path='/add-task' element={<AddTask/>} />
+          <Route path='/edit-task/:id' element={<EditTask/>} />
+        </Routes>
       </div>
     </div>
   );
