@@ -10,9 +10,10 @@ import {
   Tooltip,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-//import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const StackedChart = () => {
+  const taskList = useSelector(store => store.tasks)
     Chart.register(ChartDataLabels)
     ChartJS.register(
         CategoryScale,
@@ -21,28 +22,30 @@ const StackedChart = () => {
         Title,
         Tooltip,
     )
-    // const taskList = useSelector(store => store.tasks)
+    var coloR = [];
 
-    // const [chartData, setChartData] = React.useState ({
-    //     label: '',
-    //     data: [],
-    //     backgroundColor: '',
-    // })
+    var dynamicColors = function() {
+       var r = Math.floor(Math.random() * 255);
+       var g = Math.floor(Math.random() * 255);
+       var b = Math.floor(Math.random() * 255);
+       return "rgb(" + r + "," + g + "," + b + ")";
+    };
+    for (const i in taskList) {
+       coloR.push(dynamicColors(i));
+    }
+    const NewData = [];
+    const AllTime=[]
+    for(let i=0; i<taskList.length; i++)  {
+        AllTime.push(parseInt(taskList[i]?.taskTime))
+        const currentData = {
+          label:taskList[i]?.taskName,
+          data:[parseInt(taskList[i]?.taskTime)],
+          backgroundColor:coloR[i]
+        }
+        NewData.push(currentData);
+        coloR.push(dynamicColors());
+    }
 
-   
-    // const dataList =[];
-    // React.useEffect (()=>{
-    //     for(let i=0; i<taskList.length; i++) {
-    //         setChartData ({
-    //             label:taskList[i]?.taskName,
-    //             data: [taskList[i]?.taskList],
-    //             backgroundColor:"hello"
-    //         })
-    //         dataList.push(chartData);
-    //     }
-    // },[0])
-
-    // console.log(dataList);
     const options = {
         plugins:{
         datalabels: {
@@ -73,23 +76,7 @@ const StackedChart = () => {
   const labels = ['Tasks'];
   const data = {
     labels,
-    datasets: [
-      {
-        label: 'Task 1',
-        data: [10],
-        backgroundColor: 'rgb(255, 99, 132)',
-      },
-      {
-        label: 'Task 2',
-        data: [20],
-        backgroundColor: 'rgb(75, 192, 192)',
-      },
-      {
-        label: 'Task 3',
-        data: [5],
-        backgroundColor: 'rgb(53, 162, 235)',
-      },
-    ],
+    datasets: NewData
   };
   return(
     <Bar options={options} data={data} />
