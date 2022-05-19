@@ -33,17 +33,26 @@ const StackedChart = () => {
     for (const i in taskList) {
        coloR.push(dynamicColors(i));
     }
-    const NewData = [];
+
     const AllTime=[]
     for(let i=0; i<taskList.length; i++)  {
         AllTime.push(parseInt(taskList[i]?.taskTime))
-        const currentData = {
-          label:taskList[i]?.taskName,
-          data:[parseInt(taskList[i]?.taskTime)],
+    }
+
+    const sortedAllTime = AllTime.sort((a, b) => a - b);
+    let count = 0;
+    const CustomData =[]
+    for (let i = 0; i < sortedAllTime.length; i++) {
+      count += sortedAllTime[i];
+      if (count < 60) {
+        const dataNew = {
+          label:"Task" + (i + 1),
+          data:[parseInt(sortedAllTime[i])],
           backgroundColor:coloR[i]
         }
-        NewData.push(currentData);
+        CustomData.push(dataNew);
         coloR.push(dynamicColors());
+      }
     }
 
     const options = {
@@ -59,7 +68,6 @@ const StackedChart = () => {
                 }
         },
         },
-    
         responsive: true,
         scales: {
         x: {
@@ -76,7 +84,7 @@ const StackedChart = () => {
   const labels = ['Tasks'];
   const data = {
     labels,
-    datasets: NewData
+    datasets: CustomData
   };
   return(
     <Bar options={options} data={data} />
