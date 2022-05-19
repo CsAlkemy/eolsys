@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteTask } from '../features/taskSlice';
 import React from 'react';
-import { Modal} from 'antd';
+import { Button, Modal} from 'antd';
 import { addTask } from '../features/taskSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
@@ -61,7 +61,7 @@ const TaskList = () => {
 
     const handleCancel = () => {
         setVisible(false);
-    };
+      };
   //model logic end
     const renderTaskList = () => taskList.map(task => (
         <div key={task.id} className="bg-slate-200 py-4 rounded-xl my-2">
@@ -99,14 +99,10 @@ const TaskList = () => {
             visible={visible}
             confirmLoading={confirmLoading}
             onCancel={handleCancel}
-            onOk={formSubmitHandler}
-            okText="Add"
-            okButtonProps={{
-                type: 'primary',
-                color: 'blue',
-                hovercolor: 'red',
-                key: 'link'
-            }}
+            footer={[
+            <Button key="2" onClick={handleCancel} className='bg-red-500 text-gray-100 hover:bg-red-900 hover:text-white' type='default'>Cancel</Button>,
+            <Button key="3" type="default" onClick={formSubmitHandler} className='bg-emerald-500 text-gray-900 hover:bg-emerald-600 hover:text-white'>Submit</Button>
+            ]}
         >
             <div className="grid grid-cols-5 gap-4">
                 <div className="col-span-5">
