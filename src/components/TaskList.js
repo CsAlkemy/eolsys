@@ -1,24 +1,26 @@
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {IoIosAddCircleOutline} from 'react-icons/io';
 import {BiEdit} from 'react-icons/bi';
 import {AiOutlineDelete} from 'react-icons/ai';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteTask } from '../features/taskSlice';
-import React from 'react';
-import { Button, Modal} from 'antd';
-import { addTask } from '../features/taskSlice';
-import { v4 as uuidv4 } from 'uuid';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import 'antd/dist/antd.min.css';
+import {Modal} from 'antd';
+import { deleteTask } from '../features/taskSlice';
+import EditTaskModal from './EditTaskForm';
+import AddTaskForm from './AddTaskForm';
 
 
 const TaskList = () => {
     const taskList = useSelector(store => store.tasks)
-    const [task, setTask] = React.useState ({
-        taskName:"",
-        taskTime:"",
-      })
+    const [editModal, setEditModal] = React.useState(false);
+    const [addModal, setAddModal] = React.useState(false);
+    const [currentTask, setCurrentTask] = React.useState({
+        id: '',
+        taskName: '',
+        taskTime: ''
+    });
     const dispatch = useDispatch()
+
     // delete modal
     const { confirm } = Modal;
     function showDeleteConfirm(taskId) {
@@ -33,45 +35,43 @@ const TaskList = () => {
           },
         });
       }
+    //delete model end
 
-    //modal logic
-    const [visible, setVisible] = React.useState(false);
-    const [confirmLoading, setConfirmLoading] = React.useState(false);
+    //edit modal
+    const showEditModal = (id, taskName, taskTime) => {
+        setCurrentTask({
+            id: id,
+            taskName: taskName,
+            taskTime: taskTime
+        });
+        setEditModal(true);
+    };
+    const handleEditCancel = () => {
+      setTimeout(() => {
+        setEditModal(false);
+      }, 500);
+    };
+    //edit modal end
+
+    //Add modal logic
 
     const showModal = () => {
-        setVisible(true);
+        setAddModal(true);
     };
-
-    const formSubmitHandler = () => {
-        setTask({
-            taskName:"",
-            taskTime:""
-          })
-          dispatch(addTask ( {
-            id: uuidv4(),
-            taskName: task.taskName,
-            taskTime: task.taskTime
-          }))
-        setConfirmLoading(true);
-        setTimeout(() => {
-        setVisible(false);
-        setConfirmLoading(false);
-        }, 400);
-    };
-
     const handleCancel = () => {
-        setVisible(false);
-      };
-  //model logic end
+        setAddModal(false);
+    };
+  //Add model logic end
+  
     const renderTaskList = () => taskList.map(task => (
         <div key={task.id} className="bg-slate-200 py-4 rounded-xl my-2">
             <div className='grid grid-cols-5 justify-between justify-items-center border-l-8 border-gray-900 py-2 px-3'>
                 <div className='font-semibold col-span-3 text-lg place-self-start'>{task.taskName}</div>
                 <div className='font-semibold text-lg col-span-1'>{task.taskTime} S</div>
                 <div className='flex gap-1 mr-3 col-span-1'>
-                    <Link to={`/edit-task/${task.id}`}>
+                    <div onClick={()=>showEditModal(task?.id, task?.taskName, task?.taskTime)}>
                         <BiEdit className='h-7 w-7 hover:bg-gray-50 rounded-full cursor-pointer p-1'/>
-                    </Link>
+                    </div>
                     <AiOutlineDelete 
                         onClick={()=>{
                             showDeleteConfirm(task.id)
@@ -96,41 +96,20 @@ const TaskList = () => {
         </div>
         <Modal
             title="Add Task"
-            visible={visible}
-            confirmLoading={confirmLoading}
+            visible={addModal}
             onCancel={handleCancel}
-            footer={[
-            <Button key="2" onClick={handleCancel} className='bg-red-500 text-gray-100 hover:bg-red-900 hover:text-white' type='default'>Cancel</Button>,
-            <Button key="3" type="default" onClick={formSubmitHandler} className='bg-emerald-500 text-gray-900 hover:bg-emerald-600 hover:text-white'>Submit</Button>
-            ]}
+            footer={null}
         >
-            <div className="grid grid-cols-5 gap-4">
-                <div className="col-span-5">
-                <label htmlFor="taskName" className="text-sm text-gray-600">Task Name</label>
-                <input
-                    id="taskName"
-                    placeholder="Task Name"
-                    required
-                    type="text"
-                    className="border border-gray-500 p-2 rounded-sm w-full"
-                    value={task.taskName}
-                    onChange = {(e) => setTask({...task, taskName: e.target.value})}
-                />
-                </div>
-                <div className="col-span-5">
-                <label htmlFor="taskTime" className="text-sm text-gray-600">Task Time</label>
-                <input
-                    id="taskTime"
-                    placeholder="Task Time"
-                    required
-                    type="number"
-                    className="border border-gray-500 p-2 rounded-sm w-full"
-                    value={task.taskTime}
-                    onChange = {(e) => setTask({...task, taskTime: e.target.value})}
-                />
-                </div>
-            </div>
+            <AddTaskForm setAddModal = {setAddModal}/>
         </Modal>
+        <Modal
+            title="Edit Task"
+            onCancel={handleEditCancel}
+            visible={editModal}
+            footer = {null}
+        >
+            <EditTaskModal setEditModal = {setEditModal} task = {currentTask} />
+      </Modal>
       </div>
   )
 }

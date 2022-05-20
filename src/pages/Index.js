@@ -10,7 +10,6 @@ const Index = () => {
           <TaskList />
       </div>
     </>
-    
   )
 }
 

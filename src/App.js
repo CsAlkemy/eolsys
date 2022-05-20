@@ -1,8 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Index from './pages/Index';
-import AddTask from './pages/AddTask';
-import EditTask from './pages/EditTask';
 
 function App() {
   return (
@@ -10,8 +8,6 @@ function App() {
       <div className='mx-3 md:mx-0'>
         <Routes>
           <Route path='/' element={<Index/>} />
-          <Route path='/add-task' element={<AddTask/>} />
-          <Route path='/edit-task/:id' element={<EditTask/>} />
         </Routes>
       </div>
     </div>
