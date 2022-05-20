@@ -2,6 +2,7 @@ import React from 'react';
 import PlayButton from '../image/icon/play.png';
 import PauseButton from '../image/icon/pause.png';
 import StackedChart from './StackedChart';
+import ProgressTimer from './ProgressTimer';
 
 const Timer = () => {
     const [isPlay, setIsPlay] = React.useState(false);
@@ -19,9 +20,16 @@ const Timer = () => {
             }
         </div>
         <div className='bg-gray-900 my-3 rounded-xl p-5 pb-10'>
-            <div className='text-gray-50 mb-3 font-semibold text-xl'>Time in Secound</div>
-            <StackedChart />
-        </div>      
+            <div className='text-gray-50 mb-3 font-semibold text-base'>Time in Secound</div>
+            <div className='flex'>
+                <div className='w-full'>
+                    <StackedChart />
+                </div>
+            </div>
+        </div>
+        <div>
+            <ProgressTimer />
+        </div>
     </div>
   )
 }

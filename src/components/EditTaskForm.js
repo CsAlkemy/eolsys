@@ -47,12 +47,12 @@ const EditTaskModal = (props) => {
             <div className='grid grid-cols-5 gap-4'>
                 <div className='col-span-5'>
                     <label htmlFor="taskName" className='text-sm text-gray-600'>Task Name</label>
-                    <Field type="text"  name="taskName" className="form-control border border-gray-500 p-2 rounded-sm w-full" />
+                    <Field type="text"  name="taskName" className="form-control border border-gray-500 p-2 rounded-sm w-full"  autoComplete="off"/>
                     <ErrorMessage name="taskName" component="div" className="text-red-500" />
                 </div>
                 <div className='col-span-5'>
                     <label htmlFor="taskTime" className='text-sm text-gray-600'>Task Time</label>
-                    <Field type="number" name="taskTime" className="form-control border border-gray-500 p-2 rounded-sm w-full" />
+                    <Field type="number" name="taskTime" className="form-control border border-gray-500 p-2 rounded-sm w-full" autoComplete="off" />
                     <ErrorMessage name="taskTime" component="div" className="text-red-500" />
                 </div>
                 <div className='col-span-5'>
