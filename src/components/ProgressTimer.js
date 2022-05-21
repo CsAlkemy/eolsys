@@ -29,6 +29,7 @@ const ProgressTimer = (props) => {
       notification.open({
         message: `${task} started`,
         bottom: 50,
+        duration: 1.5,
         icon: <SmileOutlined style={{ color: '#108ee9' }} />,
       });
   } 
