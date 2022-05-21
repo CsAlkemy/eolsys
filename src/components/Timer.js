@@ -28,7 +28,7 @@ const Timer = () => {
             </div>
         </div>
         <div>
-            <ProgressTimer />
+            <ProgressTimer start ={isPlay} setIsPlay = {setIsPlay}/>
         </div>
     </div>
   )

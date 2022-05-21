@@ -52,7 +52,7 @@ const StackedChart = () => {
       coloR.push(dynamicColors());
     }
   }
-
+  
   const options = {
       plugins:{
       datalabels: {
@@ -63,7 +63,7 @@ const StackedChart = () => {
                   size:"16px"
                   }
               },
-              }
+          }
       },
       },
       responsive: true,
