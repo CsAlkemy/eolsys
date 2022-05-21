@@ -55,18 +55,22 @@ const ProgressTimer = (props) => {
   const timerNotification = () => {
     if (count && Time[0]?.name && start === true) {
       const notifyTime= []
-      for (let i=1 ; i < Time.length-1; i++) {
-        notifyTime.push((Time[i]?.time)+(Time[i+1]?.time))
+      for (let i=0 ; i < Time.length-2; i++) {
+        const data = {
+          name: Time[i+1]?.name,
+          time: (Time[i]?.time)+(Time[i+1]?.time),
+        }
+        notifyTime.push(data)
       }
       if(count === 1){
         openNotification(Time[0]?.name)
       }
       if((Time[0]?.time+1)===count){
-        openNotification(Time[0]?.name)
+        openNotification(Time[1]?.name)
       }
       for (let i=0; i < notifyTime.length; i++) {
-        if (count === notifyTime[i]) {
-          openNotification(Time[i+1]?.name)
+        if (count === notifyTime[i]?.time) {
+          openNotification(notifyTime[i]?.name)
         }
       }
     } else if ( Time.length < 0 && start === true) {
